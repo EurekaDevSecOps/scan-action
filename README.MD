@@ -57,8 +57,8 @@ Specific scanners that are enabled may require API tokens or credentials passed 
 
 | Input argument            | Description                                                                                                  |
 |---------------------------|--------------------------------------------------------------------------------------------------------------|
-| `enable_pr_scan_report`   | A boolean to enable the Eureka scan report pull request feature                                              |
-| `snyk_token`              | A Snyk API token is required if Snyk is enabled                                                              |
+| `enable_pr_scan_report`   | A boolean to enable the Pull Request Scan Reports feature                                                    |
+| `snyk_token`              | A Snyk API token is required if Snyk scanner is enabled                                                      |
 | `sonarqube_user_token`    | A SonarQube user security token is required if SonarQube scanner is enabled.                                 |
 | `veracode_api_key_id`     | A Veracode SAST/SCA/Pipeline API key ID is required if Veracode SCA, SAST or Pipeline scanner is enabled     |
 | `veracode_api_key_secret` | A Veracode SAST/SCA/Pipeline API key secret is required if Veracode SCA, SAST or Pipeline scanner is enabled |
@@ -91,7 +91,7 @@ eureka-scan:
 
 ## Workflow Examples for scanner inputs
 
-Below are Workflow examples for scanners requiring additional inputs—only required if those scanners are enabled in your Eureka profile.
+Below are workflow examples for scanners requiring additional inputs—only required if those scanners are enabled in your Eureka profile.
 
 If multiple scanners that need additional inputs are enabled in your Eureka Profile, you can provide all required input arguments together within a single workflow.
 
@@ -113,7 +113,7 @@ eureka-scan:
         EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
         PROFILE_INFO: ${{ vars.PROFILE_INFO }}
       with:
-        snyk_token: ${{ vars.SNYK_TOKEN }} 
+        snyk_token: ${{ secrets.SNYK_TOKEN }} 
 ```
 
 Ensure that the Snyk API token is configured as a secret called `SNYK_TOKEN`.
@@ -137,7 +137,7 @@ eureka-scan:
         EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
         PROFILE_INFO: ${{ vars.PROFILE_INFO }}
       with:
-        sonarqube_user_token: ${{ vars.SONARQUBE_TOKEN }} 
+        sonarqube_user_token: ${{ secrets.SONARQUBE_TOKEN }} 
 ```
 
 Ensure that the SonarQube user security token is configured as a secret called `SONARQUBE_TOKEN`.
@@ -161,8 +161,8 @@ eureka-scan:
         EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
         PROFILE_INFO: ${{ vars.PROFILE_INFO }}
       with:
-        veracode_api_key_id: ${{ vars.VERACODE_API_KEY_ID }}
-        veracode_api_key_secret: ${{ vars.VERACODE_API_KEY_SECRET }}
+        veracode_api_key_id: ${{ secrets.VERACODE_API_KEY_ID }}
+        veracode_api_key_secret: ${{ secrets.VERACODE_API_KEY_SECRET }}
 ```
 
 Ensure that the Veracode API key ID is configured as a secret called `VERACODE_API_KEY_ID`.
@@ -188,8 +188,8 @@ eureka-scan:
         EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
         PROFILE_INFO: ${{ vars.PROFILE_INFO }}
       with:
-        dast_username: ${{ vars.DAST_USERNAME }}
-        dast_password: ${{ vars.DAST_PASSWORD }}
+        dast_username: ${{ secrets.DAST_USERNAME }}
+        dast_password: ${{ secrets.DAST_PASSWORD }}
 ```
 
 Ensure that the DAST username is configured as a secret called `DAST_USERNAME`.
