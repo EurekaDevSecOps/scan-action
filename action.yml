@@ -1,6 +1,10 @@
 name: "Eureka DevSecOps"
 description: "Scan your code with Eureka DevSecOps to discover potential security risks and vulnerabilities"
 inputs:
+  enable_pr_scan_report:
+    description: "Enable a Eureka scan report as a comment in the pull request"
+    required: false
+    default: "false"
   snyk_token:
     description: "Snyk scanner API token"
     required: false
@@ -33,6 +37,29 @@ runs:
       run: |
         docker login -u ${EUREKA_USER} -p ${EUREKA_PASSWORD} eurekahubprodagentacr.azurecr.io
 
+    - name: Preparing summary report
+      shell: bash
+      id: report_prep
+      if: inputs.enable_pr_scan_report == 'true'
+      run: |
+        TMPDIR=$(mktemp -d)
+        echo "Eureka scan did not complete!" > $TMPDIR/summary.log
+        echo "report_file=$TMPDIR/summary.log" >> "$GITHUB_OUTPUT"        
+        echo "tmpdir=$TMPDIR" >> "$GITHUB_OUTPUT"
+    
+    - name: Set GitHub pull request Eureka scan report docker flags
+      shell: bash
+      if : inputs.enable_pr_scan_report == 'true'
+      run: |
+        INPUT_PR_REPORT="${{ inputs.enable_pr_scan_report }}"
+        REPORT_TMPDIR="${{ steps.report_prep.outputs.tmpdir }}"
+
+        if [[ "$INPUT_PR_REPORT" == "true" ]]; then
+          echo "PR_REPORT_DOCKER_FLAGS=-v "${REPORT_TMPDIR}:/tmp/eureka" -e EUREKA_OUTPUT=/tmp/eureka/summary.log" >> $GITHUB_ENV
+        else
+          echo "PR_REPORT_DOCKER_FLAGS=" >> $GITHUB_ENV
+        fi
+
     - name: Pull down Eureka container
       shell: bash
       run: |
@@ -51,8 +78,15 @@ runs:
           -e DAST_USERNAME="${{ inputs.dast_username }}" \
           -e DAST_PASSWORD="${{ inputs.dast_password }}" \
           -e DIND_USER_HOME="$(pwd)" \
+          $PR_REPORT_DOCKER_FLAGS \
           -e EUREKA_ENDPOINT="${EUREKA_ENDPOINT}" \
           -e EUREKA_USER="${EUREKA_USER}" \
           -e EUREKA_PASSWORD="${EUREKA_PASSWORD}" \
           -e PROFILE_INFO="${PROFILE_INFO}" \
           eurekahubprodagentacr.azurecr.io/fwdsec/eureka:latest
+
+    - name: Write Eureka report to comment
+      if: ${{ inputs.enable_pr_scan_report == 'true' && always() }}
+      uses: mshick/add-pr-comment@v2
+      with:
+        message-path: ${{ steps.report_prep.outputs.report_file }}
