@@ -5,6 +5,30 @@ inputs:
     description: "Enable a Eureka scan report as a comment in the pull request"
     required: false
     default: "false"
+  snyk_token:
+    description: "Snyk scanner API token"
+    required: false
+    default: ""
+  sonarqube_user_token:
+    description: "SonarQube user security token"
+    required: false
+    default: ""
+  veracode_api_key_id:
+    description: "Veracode SAST/SCA/Pipeline API key ID"
+    required: false
+    default: ""
+  veracode_api_key_secret:
+    description: "Veracode SAST/SCA/Pipeline API key secret"
+    required: false
+    default: ""
+  dast_username:
+    description: "Username credential for DAST scanners such as Zap"
+    required: false
+    default: ""
+  dast_password:
+    description: "Password credential for DAST scanners such as Zap"
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -47,6 +71,12 @@ runs:
         docker run --rm --network host \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v "$(pwd)":/home/repo \
+          -e SNYK_TOKEN="${{ inputs.snyk_token }}" \
+          -e SONAR_USER_TOKEN="${{ inputs.sonarqube_user_token }}" \
+          -e VERACODE_API_KEY_ID="${{ inputs.veracode_api_key_id }}" \
+          -e VERACODE_API_KEY_SECRET="${{ inputs.veracode_api_key_secret }}" \
+          -e DAST_USERNAME="${{ inputs.dast_username }}" \
+          -e DAST_PASSWORD="${{ inputs.dast_password }}" \
           -e DIND_USER_HOME="$(pwd)" \
           $PR_REPORT_DOCKER_FLAGS \
           -e EUREKA_ENDPOINT="${EUREKA_ENDPOINT}" \
