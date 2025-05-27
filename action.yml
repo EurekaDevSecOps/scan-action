@@ -9,7 +9,7 @@ inputs:
     description: "Provide a custom scan root directory. Defaults to the GitHub workspace"
     required: true
     default: "${{ github.workspace }}"
-  custom_eureka_vdbe_url:
+  eureka_vdbe_url:
     description: "Provide a custom Eureka DevSecOps Vulnerability Database URL. Defaults to the public Eureka DevSecOps database"
     required: false
     default: "https://vulns.eurekadevsecops.com"
@@ -46,6 +46,7 @@ runs:
     - name: Upload SARIF report to GitHub Advanced Security
       if: ${{ inputs.enable_github_advanced_security == 'true' && always() }}
       uses: github/codeql-action/upload-sarif@v2
+      
       with:
         sarif_file: report.sarif
         fail_on_error: false
