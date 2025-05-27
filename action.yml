@@ -25,6 +25,8 @@ runs:
     - name: Check for Eureka Agent Token and Profile ID
       shell: bash
       run: |
+          echo "Checking for required environment variables and secrets..."
+          
           if [ -z "$EUREKA_AGENT_TOKEN" ]; then
             echo "Error: EUREKA_AGENT_TOKEN secret is not set."
             exit 1
