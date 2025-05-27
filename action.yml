@@ -22,6 +22,19 @@ runs:
   steps:
     - uses: actions/checkout@v3
 
+    - name: Check for Eureka Agent Token and Profile ID
+      shell: bash
+      run: |
+          if [ -z "$EUREKA_AGENT_TOKEN" ]; then
+            echo "Error: EUREKA_AGENT_TOKEN secret is not set."
+            exit 1
+          fi
+
+          if [ -z "$EUREKA_PROFILE_ID" ]; then
+            echo "Error: EUREKA_PROFILE_ID variable is not set."
+            exit 1
+          fi
+
     - name: Pull down Eureka DevSecOps Agent
       shell: bash
       run: |
