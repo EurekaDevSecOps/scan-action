@@ -13,10 +13,4 @@ jobs:
         uses: actions/checkout@v4
         
       - name: Run Eureka Scan
-        uses: FWDSEC/eureka-scan-action@main
-        env:
-          EUREKA_ENDPOINT: ${{ secrets.EUREKA_ENDPOINT }}
-          EUREKA_USER: ${{ secrets.EUREKA_USER }}
-          EUREKA_PASSWORD: ${{ secrets.EUREKA_PASSWORD }}
-          PROFILE_INFO: ${{ vars.PROFILE_INFO }}
-        continue-on-error: false
+        uses: FWDSEC/eureka-scan-action@github-actions-refactor
