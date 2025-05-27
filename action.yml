@@ -32,7 +32,7 @@ runs:
       run: |
         docker run --rm --network host \
           -v /var/run/docker.sock:/var/run/docker.sock \
-          -v "$EUREKA_SCAN_ROOT:/home/repo" \
+          -v "$EUREKA_SCAN_ROOT:/$EUREKA_SCAN_ROOT" \
           -v eureka-agent:/app/eureka-agent \
           -e EUREKA_SCAN_ROOT="${EUREKA_SCAN_ROOT}" \
           -e EUREKA_AGENT_TOKEN="${EUREKA_AGENT_TOKEN}" \
