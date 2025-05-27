@@ -38,6 +38,7 @@ runs:
         docker run --rm --network host \
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v "${EUREKA_SCAN_ROOT}":/home/repo \
+          -v eureka-agent:/app/eureka-agent \
           -e EUREKA_SCAN_ROOT="${{ inputs.scan_root || github.workspace }}" \
           -e EUREKA_AGENT_TOKEN="${EUREKA_AGENT_TOKEN}" \
           -e EUREKA_PROFILE_ID="${EUREKA_PROFILE_ID}" \
