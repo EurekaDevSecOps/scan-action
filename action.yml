@@ -34,9 +34,9 @@ runs:
           -v /var/run/docker.sock:/var/run/docker.sock \
           -v "$EUREKA_SCAN_ROOT:/home/repo" \
           -v eureka-agent:/app/eureka-agent \
-          -e EUREKA_SCAN_ROOT="$EUREKA_SCAN_ROOT" \
-          -e EUREKA_AGENT_TOKEN="$EUREKA_AGENT_TOKEN" \
-          -e EUREKA_PROFILE_ID="$EUREKA_PROFILE_ID" \
+          -e EUREKA_SCAN_ROOT="${EUREKA_SCAN_ROOT}" \
+          -e EUREKA_AGENT_TOKEN="${EUREKA_AGENT_TOKEN}" \
+          -e EUREKA_PROFILE_ID="${EUREKA_PROFILE_ID}" \
           -e EUREKA_VULNS_URI="${{ inputs.custom_eureka_vdbe_url }}" \
           ghcr.io/eurekadevsecops/eureka-agent:${{ inputs.tag }}
       env:
