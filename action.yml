@@ -26,7 +26,7 @@ runs:
       shell: bash
       run: |
           echo "Checking for required environment variables and secrets..."
-          
+
           if [ -z "$EUREKA_AGENT_TOKEN" ]; then
             echo "Error: EUREKA_AGENT_TOKEN secret is not set."
             exit 1
@@ -52,7 +52,7 @@ runs:
           -e EUREKA_SCAN_ROOT="${EUREKA_SCAN_ROOT}" \
           -e EUREKA_AGENT_TOKEN="${EUREKA_AGENT_TOKEN}" \
           -e EUREKA_PROFILE_ID="${EUREKA_PROFILE_ID}" \
-          -e EUREKA_VULNS_URI="${{ inputs.custom_eureka_vdbe_url }}" \
+          -e EUREKA_VULNS_URI="${{ inputs.eureka_vdbe_url }}" \
           ghcr.io/eurekadevsecops/eureka-agent:${{ inputs.tag }}
       env:
         EUREKA_SCAN_ROOT: ${{ inputs.eureka_scan_root }}
