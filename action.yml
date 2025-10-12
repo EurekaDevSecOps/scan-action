@@ -84,7 +84,10 @@ runs:
     - name: Set report output
       if: ${{ always() }}
       shell: bash
-      run: echo "report=$(cat report.sarif)" >> $GITHUB_OUTPUT
+      run: |
+        echo "report<<EOF|:|EOF" >> $GITHUB_OUTPUT
+        echo "$(cat report.sarif)" >> $GITHUB_OUTPUT
+        echo "EOF|:|EOF" >> $GITHUB_OUTPUT
 
     - name: Upload report to GitHub Advanced Security
       if: ${{ inputs.export_findings_to_ghas == 'true' && always() }}
