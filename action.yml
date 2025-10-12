@@ -65,10 +65,10 @@ runs:
         radar
         echo 'Available scanners:'
         radar scanners
-        echo ''
+        echo -e '\n'
         echo 'Selected scanners:'
         echo '${{ inputs.scanners }}'
-        echo ''
+        echo -e '\n'
 
     - name: Run Radar CLI scan
       env:
