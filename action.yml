@@ -60,22 +60,26 @@ runs:
       run: npm i -g @eurekadevsecops/radar
 
     - name: Verify Radar CLI install
+      env:
+        SCANNERS: ${{ inputs.scanners }}
       shell: bash
       run: |
         radar
         echo 'Available scanners:'
         radar scanners
-        echo -e '\n'
+        echo ''
         echo 'Selected scanners:'
         echo '${{ inputs.scanners }}'
-        echo -e '\n'
+        echo ''
 
     - name: Run Radar CLI scan
       env:
+        TARGET: ${{ inputs.folder_to_scan }}
+        SCANNERS: ${{ inputs.scanners }}
         EUREKA_AGENT_TOKEN: ${{ inputs.token }}
         EUREKA_PROFILE: ${{ inputs.profile }}
       shell: bash
-      run: radar scan -s "${{ inputs.scanners }}" -o report.sarif "${{ inputs.folder_to_scan }}"
+      run: radar scan -s "$SCANNERS" -o report.sarif "$TARGET"
 
     - name: Set report output
       if: ${{ always() }}
