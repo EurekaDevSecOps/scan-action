@@ -1,72 +1,83 @@
-name: "Eureka DevSecOps GitHub Action"
-description: "Scan your code with Eureka DevSecOps to discover potential security risks and vulnerabilities"
+name: "Eureka Radar CLI Scan Action"
+description: "Scan your code with Eureka Radar CLI to discover security vulnerabilities"
+
 inputs:
-  enable_github_advanced_security:
-    description: "Enable SARIF scan results to be uploaded to Github Advanced Security. This requires the repository to have GitHub Code Scanning enabled."
-    required: false
-    default: "false"
-  eureka_scan_root:
-    description: "Provide a custom scan root directory. Defaults to the GitHub workspace"
+  folder_to_scan:
+    description: "Provide a custom scan root directory. Defaults to the root of your GitHub repository."
     required: true
     default: "${{ github.workspace }}"
-  eureka_vdbe_url:
-    description: "Provide a custom Eureka DevSecOps Vulnerability Database URL. Defaults to the public Eureka DevSecOps database"
+
+  scanners:
+    description: "Comma-separated list of scanners to use. Example: 'opengrep,gitleaks,grype,depscan'. Defaults to 'all' if not given."
     required: false
-    default: "https://vulns.eurekadevsecops.com"
-  eureka_vtsm_url:
-    description: "Provide a custom Eureka DevSecOps VTSM URL. Defaults to the public Eureka DevSecOps VTSM"
+    default: "all"
+
+  export_findings_to_ghas:
+    description: "Upload findings to Github Advanced Security. This requires your repository to have GitHub Code Scanning enabled."
     required: false
-    default: "https://eureka-vtsm-mapper-staging.fly.dev" # Update to the latest VTSM URL
-  tag:
-    description: "Provide a specific tag for the Eureka DevSecOps Agent. Defaults to latest."
+    default: "false"
+
+  token:
+    description: "Optional Eureka auth token, used to upload findings to the Eureka ASPM platform. Can be left out if you don't want to upload findings to Eureka ASPM."
     required: false
-    default: "latest"
+    default: ""
+
+  profile:
+    description: "Optional Eureka profile, used to associate findings to a specific profile in the Eureka ASPM platform."
+    required: false
+    default: ""
+
+outputs:
+  report:
+    description: 'Report with consolidated findings from all scanners run by Radar CLI. Report is in SARIF format.'
+
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
-    - name: Check for Eureka Agent Token and Profile ID
-      shell: bash
+    - name: Install Node.js and NPM
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      run: echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache npm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-npm-radar-cache-v1
+        restore-keys: |
+          ${{ runner.os }}-npm-radar-cache-
+
+    - name: Install Radar CLI
+      run: npm i -g @eurekadevsecops/radar
+
+    - name: Verify Radar CLI install
       run: |
-          echo "Checking for required environment variables and secrets..."
+        radar
+        echo 'Available scanners:'
+        radar scanners
+        echo 'Selected scanners:'
+        echo '${{ inputs.scanners }}'
 
-          if [ -z "$EUREKA_AGENT_TOKEN" ]; then
-            echo "Error: EUREKA_AGENT_TOKEN secret is not set."
-            exit 1
-          fi
-
-          if [ -z "$EUREKA_PROFILE_ID" ]; then
-            echo "Error: EUREKA_PROFILE_ID variable is not set."
-            exit 1
-          fi
-
-    - name: Pull down Eureka DevSecOps Agent
-      shell: bash
-      run: |
-        docker pull ghcr.io/eurekadevsecops/eureka-agent:${{ inputs.tag }}
-
-    - name: Run Eureka DevSecOps scan
-      shell: bash
-      run: |
-        docker run --rm --network host \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v "$EUREKA_SCAN_ROOT:/$EUREKA_SCAN_ROOT" \
-          -v eureka-agent:/app/eureka-agent \
-          -e EUREKA_SCAN_ROOT="${EUREKA_SCAN_ROOT}" \
-          -e EUREKA_AGENT_TOKEN="${EUREKA_AGENT_TOKEN}" \
-          -e EUREKA_PROFILE_ID="${EUREKA_PROFILE_ID}" \
-          -e EUREKA_VTSM_URI="${{ inputs.eureka_vtsm_url }}" \
-          -e EUREKA_VULNS_URI="${{ inputs.eureka_vdbe_url }}" \
-          ghcr.io/eurekadevsecops/eureka-agent:${{ inputs.tag }}
+    - name: Run Radar CLI scan
       env:
-        EUREKA_SCAN_ROOT: ${{ inputs.eureka_scan_root }}
+        EUREKA_AGENT_TOKEN: ${{ inputs.token }}
+        EUREKA_PROFILE: ${{ inputs.profile }}
+      run: radar scan -t "${{ inputs.folder_to_scan }}" -s "${{ inputs.scanners }}" -o report.sarif
 
+    - name: Set report output
+      if: ${{ always() }}
+      run: echo "report=$(cat report.sarif)" >> $GITHUB_OUTPUT
 
-    - name: Upload SARIF report to GitHub Advanced Security
-      if: ${{ inputs.enable_github_advanced_security == 'true' && always() }}
+    - name: Upload report to GitHub Advanced Security
+      if: ${{ inputs.export_findings_to_ghas == 'true' && always() }}
       uses: github/codeql-action/upload-sarif@v2
-      
       with:
         sarif_file: report.sarif
-        fail_on_error: false
+        fail_on_error: true
