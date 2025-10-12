@@ -44,6 +44,7 @@ runs:
 
     - name: Get npm cache directory
       id: npm-cache-dir
+      shell: bash
       run: echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
 
     - name: Cache npm cache
@@ -55,9 +56,11 @@ runs:
           ${{ runner.os }}-npm-radar-cache-
 
     - name: Install Radar CLI
+      shell: bash
       run: npm i -g @eurekadevsecops/radar
 
     - name: Verify Radar CLI install
+      shell: bash
       run: |
         radar
         echo 'Available scanners:'
@@ -69,10 +72,12 @@ runs:
       env:
         EUREKA_AGENT_TOKEN: ${{ inputs.token }}
         EUREKA_PROFILE: ${{ inputs.profile }}
+      shell: bash
       run: radar scan -t "${{ inputs.folder_to_scan }}" -s "${{ inputs.scanners }}" -o report.sarif
 
     - name: Set report output
       if: ${{ always() }}
+      shell: bash
       run: echo "report=$(cat report.sarif)" >> $GITHUB_OUTPUT
 
     - name: Upload report to GitHub Advanced Security
