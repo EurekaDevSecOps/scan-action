@@ -75,7 +75,7 @@ runs:
         EUREKA_AGENT_TOKEN: ${{ inputs.token }}
         EUREKA_PROFILE: ${{ inputs.profile }}
       shell: bash
-      run: radar scan -t "${{ inputs.folder_to_scan }}" -s "${{ inputs.scanners }}" -o report.sarif
+      run: radar scan -s "${{ inputs.scanners }}" -o report.sarif "${{ inputs.folder_to_scan }}"
 
     - name: Set report output
       if: ${{ always() }}
