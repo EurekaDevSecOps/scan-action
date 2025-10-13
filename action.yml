@@ -30,6 +30,7 @@ inputs:
 outputs:
   report:
     description: 'Report with consolidated findings from all scanners run by Radar CLI. Report is in SARIF format.'
+    value: ${{ steps.set-report-output.outputs.report }}
 
 runs:
   using: "composite"
@@ -82,6 +83,7 @@ runs:
       run: radar scan -s "$SCANNERS" -o report.sarif "$TARGET"
 
     - name: Set report output
+      id: set-report-output
       if: ${{ always() }}
       shell: bash
       run: |
