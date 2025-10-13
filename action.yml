@@ -1,35 +1,99 @@
-name: "Eureka DevSecops"
-description: "Scan your code with Eureka DevSecOps to discover potential security risks and vulnerabilities"
+name: "Eureka Radar CLI Scan Action"
+description: "Scan your code with Eureka Radar CLI to discover security vulnerabilities"
+
 inputs:
-  args:
-    description: "Additional Eureka DevSecOps CLI arguments"
+  folder_to_scan:
+    description: "Provide a custom scan root directory. Defaults to the root of your GitHub repository."
+    required: true
+    default: "${{ github.workspace }}"
+
+  scanners:
+    description: "Comma-separated list of scanners to use. Example: 'opengrep,gitleaks,grype,depscan'. Defaults to 'all' if not given."
     required: false
+    default: "all"
+
+  export_findings_to_ghas:
+    description: "Upload findings to Github Advanced Security. This requires your repository to have GitHub Code Scanning enabled."
+    required: false
+    default: "false"
+
+  token:
+    description: "Optional Eureka auth token, used to upload findings to the Eureka ASPM platform. Can be left out if you don't want to upload findings to Eureka ASPM."
+    required: false
+    default: ""
+
+  profile:
+    description: "Optional Eureka profile, used to associate findings to a specific profile in the Eureka ASPM platform."
+    required: false
+    default: ""
+
+outputs:
   report:
-    description: "Enable Eureka DevSecOps scan results published as a comment to the associated GitHub pull request"
-    required: false
-    default: "true"
+    description: 'Report with consolidated findings from all scanners run by Radar CLI. Report is in SARIF format.'
+    value: ${{ steps.set-report-output.outputs.report }}
+
 runs:
   using: "composite"
   steps:
-    - name: Login to the Docker Registry
-      run: |
-        docker login -u ${EUREKA_USER} -p ${EUREKA_PASSWORD} ${EUREKA_REGISTRY_URL}
-      shell: bash
+    - name: Checkout repo
+      uses: actions/checkout@v4
 
-    - name: Pull down Eureka container
-      run: |
-        docker pull ${EUREKA_REGISTRY_URL}/${EUREKA_REPO}:${EUREKA_TAG}
-      shell: bash
+    - name: Install Node.js and NPM
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
 
-    - name: Run Eureka scan
+    - name: Get npm cache directory
+      id: npm-cache-dir
+      shell: bash
+      run: echo "dir=$(npm config get cache)" >> "$GITHUB_OUTPUT"
+
+    - name: Cache npm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.npm-cache-dir.outputs.dir }}
+        key: ${{ runner.os }}-npm-radar-cache-v1
+        restore-keys: |
+          ${{ runner.os }}-npm-radar-cache-
+
+    - name: Install Radar CLI
+      shell: bash
+      run: npm i -g @eurekadevsecops/radar
+
+    - name: Verify Radar CLI install
+      env:
+        SCANNERS: ${{ inputs.scanners }}
       shell: bash
       run: |
-        docker run --rm --network host \
-          -v /var/run/docker.sock:/var/run/docker.sock \
-          -v "$(pwd)":/home/repo \
-          -e DIND_USER_HOME="$(pwd)" \
-          -e EUREKA_ENDPOINT="${EUREKA_ENDPOINT}" \
-          -e EUREKA_USER="${EUREKA_USER}" \
-          -e EUREKA_PASSWORD="${EUREKA_PASSWORD}" \
-          -e PROFILE_INFO="${PROFILE_INFO}" \
-          ${EUREKA_REGISTRY_URL}/${EUREKA_REPO}:${EUREKA_TAG}
+        radar
+        echo 'Available scanners:'
+        radar scanners
+        echo ''
+        echo 'Selected scanners:'
+        echo '$SCANNERS'
+        echo ''
+
+    - name: Run Radar CLI scan
+      env:
+        TARGET: ${{ inputs.folder_to_scan }}
+        SCANNERS: ${{ inputs.scanners }}
+        EUREKA_AGENT_TOKEN: ${{ inputs.token }}
+        EUREKA_PROFILE: ${{ inputs.profile }}
+      shell: bash
+      run: radar scan -s "$SCANNERS" -o report.sarif "$TARGET"
+
+    - name: Set report output
+      id: set-report-output
+      if: ${{ always() }}
+      shell: bash
+      run: |
+        echo "report<<EOF|:|EOF" >> $GITHUB_OUTPUT
+        echo "$(cat report.sarif)" >> $GITHUB_OUTPUT
+        echo "EOF|:|EOF" >> $GITHUB_OUTPUT
+
+    - name: Upload report to GitHub Advanced Security
+      if: ${{ inputs.export_findings_to_ghas == 'true' && always() }}
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: report.sarif
+        fail_on_error: true
