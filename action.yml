@@ -4,7 +4,7 @@ description: "Scan your code with Eureka Radar CLI to discover security vulnerab
 inputs:
   folder_to_scan:
     description: "Provide a custom scan root directory. Defaults to the root of your GitHub repository."
-    required: true
+    required: false
     default: "${{ github.workspace }}"
 
   scanners:
