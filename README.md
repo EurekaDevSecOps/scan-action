@@ -4,7 +4,7 @@
 ![Build](https://github.com/eurekadevsecops/scan-action/actions/workflows/test.yml/badge.svg)
 ![License](https://img.shields.io/github/license/eurekadevsecops/scan-action?color=green)
 ![Node](https://img.shields.io/badge/Node.js-22.x-blue?logo=node.js)
-![Radar CLI](https://img.shields.io/badge/Radar%20CLI-%40eurekadevsecops%2Fradar-blueviolet)
+![Radar CLI](https://img.shields.io/badge/Radar%20CLI-%40eurekadevsecops%2Fradarctl-blueviolet)
 
 **Scan your code for vulnerabilities with [Eureka Radar CLI](https://github.com/eurekadevsecops/radar-cli)** — the unified AppSec orchestration tool that aggregates findings across multiple security scanners.
 
