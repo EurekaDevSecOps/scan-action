@@ -1,0 +1,37 @@
+name: Lint action.yml
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - action.yml
+  push:
+    branches:
+      - "main"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22" 
+
+      - name: Install action-validator
+        run: npm install -g @action-validator/core @action-validator/cli --save-dev
+
+      - name: Lint Actions
+        run: |
+          npx action-validator action.yml
