@@ -13,7 +13,7 @@ Detect secrets, dependency vulnerabilities, insecure code patterns, and configur
 
 ---
 
-## 🧭 Overview
+## Overview
 
 ```mermaid
 flowchart LR
@@ -228,7 +228,7 @@ Eureka Application Security Posture Management (ASPM) helps you:
 * Track vulnerabilities and exceptions over time
 * Map findings to **OWASP ASVS** for compliance
 
-🔗 Learn more at **[eurekadevsecops.com](https://eurekadevsecops.com)**
+Learn more at **[eurekadevsecops.com](https://eurekadevsecops.com)**
 
 ---
 
