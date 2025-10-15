@@ -31,11 +31,11 @@ When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibili
 
 ## 🌟 Key Features
 
-* 🔍 **Multi-scanner orchestration:** Run one or many scanners (Opengrep, Gitleaks, Grype, OWASP Dep-Scan, and more)
-* 🧩 **Single SARIF report:** Consolidated findings across all scanners in one place
-* ☁️ **Optional Eureka ASPM integration:** Upload results for de-duplication, triage, and prioritization
-* 🧠 **Telemetry control:** Off by default — opt-in when you want centralized visibility
-* 🧱 **GitHub Advanced Security (GHAS) support:** Upload findings to your repository’s Security tab
+* **Multi-scanner orchestration:** Run one or many scanners (Opengrep, Gitleaks, Grype, OWASP Dep-Scan, and more)
+* **Single SARIF report:** Consolidated findings across all scanners in one place
+* **Optional Eureka ASPM integration:** Upload results for de-duplication, triage, and prioritization
+* **Telemetry control:** Off by default — opt-in when you want centralized visibility
+* **GitHub Advanced Security (GHAS) support:** Upload findings to your repository’s Security tab
 
 ---
 
@@ -148,20 +148,20 @@ Example:
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
-1. 🪄 Checks out your repository
-2. ⚙️ Installs Node.js and Radar CLI (`npm i -g @eurekadevsecops/radar`)
-3. 🚦 Runs selected scanners
-4. 🧩 Generates a unified SARIF report
-5. ☁️ Optionally uploads results to:
+1. Checks out your repository
+2. Installs Node.js and Radar CLI (`npm i -g @eurekadevsecops/radar`)
+3. Runs selected scanners
+4. Generates a unified SARIF report
+5. Optionally uploads results to:
 
    * GitHub Advanced Security
    * Eureka ASPM (if `token` + `profile` are provided)
 
 ---
 
-## 🧰 Supported Scanners
+## Supported Scanners
 
 | Category          | Scanners       | Description                                        |
 | ----------------- | -------------- | -------------------------------------------------- |
@@ -191,7 +191,7 @@ When omitted:
 
 ---
 
-## 🧪 Local Development
+## Local Development
 
 Run the same scan locally with Radar CLI:
 
@@ -202,16 +202,16 @@ radar scan -s "opengrep,gitleaks" .
 
 ---
 
-## 🧩 Troubleshooting
+## Troubleshooting
 
 | Issue                                             | Possible Cause                                               | Solution                                                                                                            |
 | ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
 | **❌ `report.sarif` not found**                    | The scan failed or didn’t produce output.                    | Check your workflow logs for errors from Radar CLI. Ensure the `folder_to_scan` path exists and scanners are valid. |
 | **⚠️ No findings uploaded to Eureka**             | Missing or invalid `EUREKA_AGENT_TOKEN` or `EUREKA_PROFILE`. | Make sure your token is stored as a GitHub Secret and your profile matches one in Eureka ASPM.                      |
 | **🚫 “Permission denied” when uploading to GHAS** | Repository doesn’t have GitHub Advanced Security enabled.    | Enable GHAS under your repo’s *Security → Code scanning alerts* settings.                                           |
-| **🕸️ Network errors**                            | CI environment lacks outbound internet access.               | Ensure the runner can reach npmjs.org and eurekadevsecops.com endpoints.                                            |
-| **🪪 Invalid Node.js version**                    | Runner uses an incompatible Node version.                    | This action installs Node 22 automatically, but check logs to confirm setup-node succeeded.                         |
-| **🤖 “radar not found”**                          | CLI installation failed.                                     | Re-run the workflow; check npm logs for permission issues or caching problems.                                      |
+| **Network errors**                            | CI environment lacks outbound internet access.               | Ensure the runner can reach npmjs.org and eurekadevsecops.com endpoints.                                            |
+| **Invalid Node.js version**                    | Runner uses an incompatible Node version.                    | This action installs Node 22 automatically, but check logs to confirm setup-node succeeded.                         |
+| **“radar not found”**                          | CLI installation failed.                                     | Re-run the workflow; check npm logs for permission issues or caching problems.                                      |
 
 > 🧩 **Tip:**
 > You can debug locally using the same CLI command as the action:
@@ -219,7 +219,7 @@ radar scan -s "opengrep,gitleaks" .
 
 ---
 
-## 📈 Why Integrate with Eureka ASPM?
+## Why Integrate with Eureka ASPM?
 
 Eureka Application Security Posture Management (ASPM) helps you:
 
@@ -234,11 +234,12 @@ Eureka Application Security Posture Management (ASPM) helps you:
 
 ## 🪪 License
 
-MIT License — © [Eureka DevSecOps](https://eurekadevsecops.com)
+This GitHub Action is licensed under the terms of the MIT License — © [Eureka DevSecOps](https://eurekadevsecops.com)
 
 ---
 
 ## 💬 Support
 
 📫 [security@eurekadevsecops.com](mailto:security@eurekadevsecops.com)
+
 💡 For issues and feature requests: [GitHub Issues](https://github.com/eurekadevsecops/scan-action/issues)
