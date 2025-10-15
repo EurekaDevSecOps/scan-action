@@ -16,7 +16,7 @@ defaults:
     shell: bash
 
 jobs:
-  action:
+  scan-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
