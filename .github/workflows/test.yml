@@ -10,7 +10,7 @@ on:
       - main
 
 jobs:
-  eureka-scan:
+  scan-action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
