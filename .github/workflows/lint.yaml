@@ -1,4 +1,4 @@
-name: Lint action.yml
+name: Lint
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ defaults:
     shell: bash
 
 jobs:
-  lint:
+  action:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,5 +33,4 @@ jobs:
         run: npm install -g @action-validator/core @action-validator/cli --save-dev
 
       - name: Lint Actions
-        run: |
-          npx action-validator action.yml
+        run: npx action-validator action.yml
