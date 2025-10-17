@@ -20,13 +20,13 @@
 #  📘 Full documentation:
 #      https://github.com/eurekadevsecops/scan-action#readme
 #
-#  🧠 Example 1 — Local Scan (no uploads)
+#  Example 1 — Local Scan (no uploads)
 #  -----------------------------------------------------------
 #  - uses: eurekadevsecops/scan-action@v1
 #    with:
 #      scanners: "opengrep,gitleaks,grype,depscan"
 #
-#  🧠 Example 2 — Upload Findings to Eureka ASPM
+#  Example 2 — Upload Findings to Eureka ASPM
 #  -----------------------------------------------------------
 #  - uses: eurekadevsecops/scan-action@v1
 #    with:
@@ -35,7 +35,7 @@
 #      profile: "prod-backend"
 #      export_findings_to_ghas: "true"
 #
-#  🔒 Inputs:
+#  Inputs:
 #    folder_to_scan           Directory to scan (default: ${{ github.workspace }})
 #    scanners                 Comma-separated list of scanners (default: "all")
 #    export_findings_to_ghas  Upload SARIF results to GHAS (default: "false")
