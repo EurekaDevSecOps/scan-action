@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="assets/radar.png" alt="Eureka Radar Logo" width="160"/>
+  ![Eureka Radar Logo](assets/radar.png)
+</p>
+
 # 🛡️ Multi-Scanner AppSec Action — Radar by Eureka ASPM
 
 ![GitHub release](https://img.shields.io/github/v/release/eurekadevsecops/scan-action?color=2b82f6\&label=Release)
