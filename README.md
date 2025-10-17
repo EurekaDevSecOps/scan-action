@@ -1,7 +1,7 @@
 <div align="center" style="text-align:center;">
 
 <p align="center">
-  <img src="assets/radar.png" alt="Eureka Radar Logo" width="160"/>
+  <img src="assets/radar.png" alt="Eureka Radar Logo" width="320"/>
 </p>
 
 # 🛡️ Multi-Scanner AppSec Action — Radar by Eureka ASPM
