@@ -1,6 +1,7 @@
+<div align="center" style="text-align:center;">
+
 <p align="center">
   <img src="assets/radar.png" alt="Eureka Radar Logo" width="160"/>
-  ![Eureka Radar Logo](assets/radar.png)
 </p>
 
 # 🛡️ Multi-Scanner AppSec Action — Radar by Eureka ASPM
@@ -10,6 +11,8 @@
 ![License](https://img.shields.io/github/license/eurekadevsecops/scan-action?color=green)
 ![Node](https://img.shields.io/badge/Node.js-22.x-blue?logo=node.js)
 [![Radar CLI](https://img.shields.io/badge/Radar%20CLI-%40eurekadevsecops%2Fradarctl-blueviolet)](https://github.com/EurekaDevSecOps/radarctl)
+
+</div>
 
 **Scan your code for security vulnerabilities with [Eureka Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners and uploads aggregated results to GitHub Advanced Security or Eureka ASPM.
 
