@@ -118,6 +118,7 @@ runs:
     - name: Verify Radar CLI install
       env:
         SCANNERS: ${{ inputs.scanners }}
+        TARGET: ${{ inputs.folder_to_scan }}
       shell: bash
       run: |
         radar
@@ -128,7 +129,7 @@ runs:
         echo -e '$SCANNERS'
         echo ''
         echo 'Folder to scan:'
-        echo '${{ inputs.folder_to_scan }}'
+        echo -e "$TARGET"
         echo ''
 
     - name: Run Radar CLI scan
