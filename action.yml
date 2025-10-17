@@ -125,7 +125,10 @@ runs:
         radar scanners
         echo ''
         echo 'Selected scanners:'
-        echo '$SCANNERS'
+        echo -e '$SCANNERS'
+        echo ''
+        echo 'Folder to scan:'
+        echo '${{ inputs.folder_to_scan }}'
         echo ''
 
     - name: Run Radar CLI scan
