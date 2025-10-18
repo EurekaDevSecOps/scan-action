@@ -1,5 +1,5 @@
 # ---------------------------------------------------------------------------
-#  🛡️ Multi-Scanner AppSec Action — Radar by Eureka ASPM
+#  🛡️ The Official Multi-Scanner GitHub Action for Eureka Radar CLI
 #
 #  Run automated AppSec scans in your CI/CD pipeline with Radar CLI by Eureka.
 #  This GitHub Action unifies all your AppSec scanners — code, dependencies,
@@ -24,13 +24,21 @@
 #  -----------------------------------------------------------
 #  - uses: eurekadevsecops/scan-action@v1
 #    with:
-#      scanners: "opengrep,gitleaks,grype,depscan"
+#      scanners: "opengrep,gitleaks,grype"
 #
 #  Example 2 — Upload Findings to Eureka ASPM
 #  -----------------------------------------------------------
 #  - uses: eurekadevsecops/scan-action@v1
 #    with:
-#      scanners: "opengrep,gitleaks,grype,depscan"
+#      scanners: "opengrep,gitleaks,grype"
+#      token: ${{ secrets.EUREKA_AGENT_TOKEN }}
+#      profile: "prod-backend"
+#
+#  Example 3 — Upload Findings to Eureka ASPM and GHAS
+#  -----------------------------------------------------------
+#  - uses: eurekadevsecops/scan-action@v1
+#    with:
+#      scanners: "opengrep,gitleaks,grype"
 #      token: ${{ secrets.EUREKA_AGENT_TOKEN }}
 #      profile: "prod-backend"
 #      export_findings_to_ghas: "true"
@@ -49,7 +57,7 @@
 #    MIT © Eureka DevSecOps  |  https://eurekadevsecops.com
 # ---------------------------------------------------------------------------
 
-name: "Multi-Scanner AppSec Action - Radar by Eureka ASPM"
+name: "The Official Multi-Scanner GitHub Action for Eureka Radar CLI"
 description: "Run multi-scanner AppSec scans in CI/CD with Radar CLI by Eureka. Generate consolidated SARIF results and optionally upload to GitHub Advanced Security or Eureka ASPM."
 
 branding:
