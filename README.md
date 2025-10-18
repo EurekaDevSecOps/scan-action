@@ -36,6 +36,30 @@ When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibili
 
 ---
 
+## How It Works
+
+1. Checks out your repository
+2. Installs Node.js and Radar CLI (`npm i -g @eurekadevsecops/radar`)
+3. Runs selected scanners
+4. Generates a unified SARIF report
+5. Optionally uploads results to:
+
+   * GitHub Advanced Security
+   * Eureka ASPM (if `token` + `profile` are provided)
+
+---
+
+## Supported Scanners
+
+| Category          | Scanners       | Description                                        |
+| ----------------- | -------------- | -------------------------------------------------- |
+| **SAST**          | Opengrep       | Detects insecure code patterns                     |
+| **Secrets**       | Gitleaks       | Finds hardcoded credentials                        |
+| **SCA**           | Grype, DepScan | Detects vulnerable dependencies                    |
+| **Container/IaC** | (coming soon)  | Scans Dockerfiles, Terraform, Kubernetes manifests |
+
+---
+
 ## 🛠️ Usage
 
 ### Example 1 — Local Scans
@@ -148,30 +172,6 @@ Example:
 - name: Print SARIF Report
   run: echo "${{ steps.radar.outputs.report }}"
 ```
-
----
-
-## How It Works
-
-1. Checks out your repository
-2. Installs Node.js and Radar CLI (`npm i -g @eurekadevsecops/radar`)
-3. Runs selected scanners
-4. Generates a unified SARIF report
-5. Optionally uploads results to:
-
-   * GitHub Advanced Security
-   * Eureka ASPM (if `token` + `profile` are provided)
-
----
-
-## Supported Scanners
-
-| Category          | Scanners       | Description                                        |
-| ----------------- | -------------- | -------------------------------------------------- |
-| **SAST**          | Opengrep       | Detects insecure code patterns                     |
-| **Secrets**       | Gitleaks       | Finds hardcoded credentials                        |
-| **SCA**           | Grype, DepScan | Detects vulnerable dependencies                    |
-| **Container/IaC** | (coming soon)  | Scans Dockerfiles, Terraform, Kubernetes manifests |
 
 ---
 
