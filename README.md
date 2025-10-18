@@ -4,7 +4,7 @@
   <img src="assets/radar.png" alt="Eureka Radar Logo" width="320"/>
 </p>
 
-# Multi-Scanner AppSec Action — Radar by Eureka ASPM
+# The Official Multi-Scanner GitHub Action for Eureka Radar CLI
 
 ![GitHub release](https://img.shields.io/github/v/release/eurekadevsecops/scan-action?color=2b82f6\&label=Release)
 ![Build](https://github.com/eurekadevsecops/scan-action/actions/workflows/test.yml/badge.svg)
