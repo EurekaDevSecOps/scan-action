@@ -4,7 +4,7 @@
   <img src="assets/radar.png" alt="Eureka Radar Logo" width="320"/>
 </p>
 
-# 🛡️ Multi-Scanner AppSec Action — Radar by Eureka ASPM
+# Multi-Scanner AppSec Action — Radar by Eureka ASPM
 
 ![GitHub release](https://img.shields.io/github/v/release/eurekadevsecops/scan-action?color=2b82f6\&label=Release)
 ![Build](https://github.com/eurekadevsecops/scan-action/actions/workflows/test.yml/badge.svg)
@@ -20,17 +20,6 @@ This GitHub Action lets you run Radar CLI directly in your CI/CD pipeline.
 Detect secrets, dependency vulnerabilities, insecure code patterns, and configuration issues — all in one step.
 
 ---
-
-## Overview
-
-```mermaid
-flowchart LR
-    subgraph GitHub["GitHub Workflow"]
-      A[🧩 scan-action] --> B[📊 Radar CLI]
-      B -->|SARIF report| C[🔒 GitHub Advanced Security]
-      B -->|findings (optional)| D[(☁️ Eureka ASPM)]
-    end
-```
 
 **Telemetry defaults to OFF** — nothing is uploaded unless you provide credentials.
 When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibility across repositories, environments, and scanner types.
