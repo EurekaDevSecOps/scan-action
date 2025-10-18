@@ -82,6 +82,12 @@ jobs:
           profile: "prod-backend"
 ```
 
+> 💡 **Tip:**
+>
+> * `EUREKA_AGENT_TOKEN` authenticates uploads to your Eureka workspace.
+> * `EUREKA_PROFILE` tags findings with your app or environment.
+> * If you omit both, no telemetry or uploads occur.
+
 ---
 
 ### Example 3 — Upload Findings to Eureka ASPM and to GitHub Advanced Security
@@ -212,7 +218,7 @@ radar scan -s "opengrep,gitleaks" .
 
 > 🧩 **Tip:**
 > You can debug locally using the same CLI command as the action:
-> `radar scan -s "all" -o report.sarif .`
+> `radar scan -s "opengrep,gitleaks,grype" -o report.sarif`
 
 ---
 
