@@ -1,5 +1,68 @@
-name: "Eureka Radar CLI Scan Action"
-description: "Scan your code with Eureka Radar CLI to discover security vulnerabilities"
+# ---------------------------------------------------------------------------
+#  🛡️ The Official Multi-Scanner GitHub Action for Eureka Radar CLI
+#
+#  Run automated AppSec scans in your CI/CD pipeline with Radar CLI by Eureka.
+#  This GitHub Action unifies all your AppSec scanners — code, dependencies,
+#  and secrets — into one command and produces a unified SARIF report for
+#  GitHub Advanced Security or Eureka ASPM. Upload findings when you need
+#  centralized tracking, or run locally with telemetry off for privacy.
+#  Eureka Radar helps development teams continuously identify and manage
+#  vulnerabilities. One action. Complete coverage.
+#
+#  ✅ Features:
+#    - Run one or more scanners (Opengrep, Gitleaks, Grype, Dep-Scan, etc)
+#    - Generate a single SARIF report for all findings
+#    - Optionally upload findings to:
+#        • GitHub Advanced Security (GHAS)
+#        • Eureka ASPM for centralized vulnerability management
+#    - Telemetry is disabled by default unless credentials are provided
+#
+#  📘 Full documentation:
+#      https://github.com/eurekadevsecops/scan-action#readme
+#
+#  Example 1 — Local Scan (no uploads)
+#  -----------------------------------------------------------
+#  - uses: eurekadevsecops/scan-action@v1
+#    with:
+#      scanners: "opengrep,gitleaks,grype"
+#
+#  Example 2 — Upload Findings to Eureka ASPM
+#  -----------------------------------------------------------
+#  - uses: eurekadevsecops/scan-action@v1
+#    with:
+#      scanners: "opengrep,gitleaks,grype"
+#      token: ${{ secrets.EUREKA_AGENT_TOKEN }}
+#      profile: "prod-backend"
+#
+#  Example 3 — Upload Findings to Eureka ASPM and GHAS
+#  -----------------------------------------------------------
+#  - uses: eurekadevsecops/scan-action@v1
+#    with:
+#      scanners: "opengrep,gitleaks,grype"
+#      token: ${{ secrets.EUREKA_AGENT_TOKEN }}
+#      profile: "prod-backend"
+#      export_findings_to_ghas: "true"
+#
+#  Inputs:
+#    folder_to_scan           Directory to scan (default: ${{ github.workspace }})
+#    scanners                 Comma-separated list of scanners (default: "all")
+#    export_findings_to_ghas  Upload SARIF results to GHAS (default: "false")
+#    token                    Eureka agent token (optional)
+#    profile                  Eureka profile name (optional)
+#
+#  📤 Output:
+#    report                   Consolidated SARIF report (string)
+#
+#  🪪 License:
+#    MIT © Eureka DevSecOps  |  https://eurekadevsecops.com
+# ---------------------------------------------------------------------------
+
+name: "The Official Multi-Scanner GitHub Action for Eureka Radar CLI"
+description: "Run multi-scanner AppSec scans in CI/CD with Radar CLI by Eureka. Generate consolidated SARIF results and optionally upload to GitHub Advanced Security or Eureka ASPM."
+
+branding:
+  icon: "shield"
+  color: "blue"
 
 inputs:
   folder_to_scan:
@@ -18,12 +81,12 @@ inputs:
     default: "false"
 
   token:
-    description: "Optional Eureka auth token, used to upload findings to the Eureka ASPM platform. Can be left out if you don't want to upload findings to Eureka ASPM."
+    description: "Optional Eureka ASPM auth token, used to upload findings to the Eureka ASPM platform. Can be left out if you don't want to upload findings to Eureka ASPM."
     required: false
     default: ""
 
   profile:
-    description: "Optional Eureka profile, used to associate findings to a specific profile in the Eureka ASPM platform."
+    description: "Optional Eureka ASPM profile, used to associate findings to a specific profile in the Eureka ASPM platform."
     required: false
     default: ""
 
@@ -63,6 +126,7 @@ runs:
     - name: Verify Radar CLI install
       env:
         SCANNERS: ${{ inputs.scanners }}
+        TARGET: ${{ inputs.folder_to_scan }}
       shell: bash
       run: |
         radar
@@ -70,7 +134,10 @@ runs:
         radar scanners
         echo ''
         echo 'Selected scanners:'
-        echo '$SCANNERS'
+        echo -e '$SCANNERS'
+        echo ''
+        echo 'Folder to scan:'
+        echo -e "$TARGET"
         echo ''
 
     - name: Run Radar CLI scan
