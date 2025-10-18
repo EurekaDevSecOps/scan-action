@@ -87,7 +87,7 @@ jobs:
 
 ### Example 2 — Upload Findings to Eureka ASPM
 
-Use this when you want to see all your scan results in one place inside [Eureka ASPM](https://eurekadevsecops.com). Uploading findings adds extra perks: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. If you’re working on an open-source project, we have a free plan for you in Eureka ASPM.
+Use this when you want to see all your scan results in one place inside **Eureka ASPM**. Uploading findings adds extra perks: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. If you’re working on an open-source project, we have a free plan for you in [Eureka ASPM](https://eurekadevsecops.com).
 
 ```yaml
 name: Code Scan and Upload
@@ -222,9 +222,7 @@ radar scan -s "opengrep,gitleaks" .
 
 ---
 
-## Why Integrate with Eureka ASPM?
-
-Eureka Application Security Posture Management (ASPM) helps you:
+## Why Upload Findings to Eureka ASPM?
 
 * **One Source of Truth:** Aggregate and de-duplicate findings across scanners — no more hunting through separate reports.
 * **Less Noise, More Signal:** Prioritize risks contextually using code + dependency data. Map findings to **OWASP ASVS**.
@@ -238,7 +236,7 @@ Learn more at **[eurekadevsecops.com](https://eurekadevsecops.com)**
 
 ## 🪪 License
 
-This GitHub Action is licensed under the terms of the MIT License — © [Eureka DevSecOps](https://eurekadevsecops.com)
+This GitHub Action is licensed under the terms of the MIT License — © Eureka DevSecOps Inc.
 
 ---
 
