@@ -38,9 +38,9 @@ When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibili
 
 ## 🛠️ Usage
 
-### Example 1 — Local or Independent Scan
+### Example 1 — Local Scans
 
-Use when you **don’t** want to upload findings to Eureka ASPM — ideal for forks, open-source, or isolated pipelines.
+You can run this scan action entirely locally — it’s free, open source, and always will be. Use this option when you **don’t** want to upload findings to Eureka ASPM — ideal for forks, open-source, or isolated pipelines.
 
 ```yaml
 name: Code Scan
@@ -63,7 +63,7 @@ jobs:
 
 ### Example 2 — Upload Findings to Eureka ASPM
 
-Use when you want full visibility and vulnerability tracking inside [Eureka ASPM](https://eurekadevsecops.com).
+Use this when you want to see all your scan results in one place inside [Eureka ASPM](https://eurekadevsecops.com). Uploading findings adds extra perks: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. If you’re working on an open-source project, we have a free plan for you in Eureka ASPM.
 
 ```yaml
 name: Code Scan and Upload
@@ -92,7 +92,7 @@ jobs:
 
 ### Example 3 — Upload Findings to Eureka ASPM and to GitHub Advanced Security
 
-Use when you want to see consolidated vulnerability findings directly in GitHub.
+Use this if you like seeing security alerts where you work — in GitHub — but also want a full picture in Eureka: one dashboard for all scanners, deduped results, and long-term tracking across all of your repos.
 
 ```yaml
 name: Code Scan and Upload
