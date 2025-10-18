@@ -92,7 +92,7 @@ jobs:
 
 ### Example 3 — Upload Findings to Eureka ASPM and to GitHub Advanced Security
 
-Use when you want full visibility and vulnerability tracking inside [Eureka ASPM](https://eurekadevsecops.com).
+Use when you want to see consolidated vulnerability findings directly in GitHub.
 
 ```yaml
 name: Code Scan and Upload
@@ -226,10 +226,11 @@ radar scan -s "opengrep,gitleaks" .
 
 Eureka Application Security Posture Management (ASPM) helps you:
 
-* Aggregate and de-duplicate findings across scanners
-* Prioritize risks contextually using code + dependency data
-* Track vulnerabilities and exceptions over time
-* Map findings to **OWASP ASVS** for compliance
+* **One Source of Truth:** Aggregate and de-duplicate findings across scanners — no more hunting through separate reports.
+* **Less Noise, More Signal:** Prioritize risks contextually using code + dependency data. Map findings to **OWASP ASVS**.
+* **Faster Fixes:** Clear ownership, risk context, and remediation guidance help teams resolve issues quickly.
+* **Built for Dev Workflows:** Integrates with GitHub, CI/CD, and local development so security fits naturally into your flow.
+* **Track and Improve:** See how your project’s security posture evolves over time — from first commit to production.
 
 Learn more at **[eurekadevsecops.com](https://eurekadevsecops.com)**
 
