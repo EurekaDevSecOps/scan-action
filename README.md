@@ -14,7 +14,7 @@
 
 </div>
 
-**Scan your code for security vulnerabilities with [Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners. Get visibility into what security vulnerabilities exist in your code. Optionally block deployments and manage vulnerabilities in a central location by uploading aggregated results to Eureka ASPM or GitHub Advanced Security.
+**Scan your code for security vulnerabilities with [Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners. Gain visibility into security vulnerabilities across your codebase, and optionally block deployments or manage aggregated results in a central platform such as Eureka ASPM or other vulnerability management tools.
 
 This GitHub Action lets you run Radar CLI directly in your CI/CD pipeline.
 Detect secrets, dependency vulnerabilities, insecure code patterns, and configuration issues — all in one step.
