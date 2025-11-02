@@ -1,10 +1,10 @@
 <div align="center" style="text-align:center;">
 
 <p align="center">
-  <img src="assets/radar.png" alt="Eureka Radar Logo" width="320"/>
+  <img src="assets/radar.png" alt="Radar Logo" width="320"/>
 </p>
 
-# GitHub Action for Eureka Radar CLI
+# GitHub Action for Radar CLI
 ### One command. Complete AppSec coverage.
 
 ![GitHub release](https://img.shields.io/github/v/release/eurekadevsecops/scan-action?color=2b82f6\&label=Release)
@@ -14,7 +14,7 @@
 
 </div>
 
-**Scan your code for security vulnerabilities with [Eureka Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners. Get visibility into what security vulnerabilities exist in your code. Optionally block deployments and manage vulnerabilities in a central location by uploading aggregated results to Eureka ASPM or GitHub Advanced Security.
+**Scan your code for security vulnerabilities with [Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners. Get visibility into what security vulnerabilities exist in your code. Optionally block deployments and manage vulnerabilities in a central location by uploading aggregated results to Eureka ASPM or GitHub Advanced Security.
 
 This GitHub Action lets you run Radar CLI directly in your CI/CD pipeline.
 Detect secrets, dependency vulnerabilities, insecure code patterns, and configuration issues — all in one step.
@@ -159,7 +159,7 @@ jobs:
 Example:
 
 ```yaml
-- name: Run Eureka Radar CLI Scan
+- name: Run Radar CLI Scan
   id: radar
   uses: eurekadevsecops/scan-action@v1
 
