@@ -223,6 +223,6 @@ This GitHub Action is licensed under the terms of the **GPL v3 License** — © 
 
 ## Support
 
-[security@eurekadevsecops.com](mailto:security@eurekadevsecops.com)
-
 For issues and feature requests: [GitHub Issues](https://github.com/eurekadevsecops/scan-action/issues)
+
+If you discover a security vulnerability, please report it privately. **Do not open a public GitHub issue.** Instead, email us at [security@eurekadevsecops.com](mailto:security@eurekadevsecops.com) with details of the issue, steps to reproduce, and any relevant context. We’ll acknowledge receipt, provide a status update, and coordinate a responsible disclosure timeline.
