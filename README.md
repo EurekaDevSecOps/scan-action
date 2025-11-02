@@ -83,7 +83,7 @@ jobs:
 
 ### Example 2 — Upload Findings to Eureka ASPM
 
-Use this when you want to see all your scan results in one place inside **Eureka ASPM**. Uploading findings adds extra capabilities: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. Sign up for or sign into [Eureka ASPM](https://eurekadevsecops.com).
+Use this when you want to see all your scan results in one place inside **Eureka ASPM**. Uploading findings adds extra capabilities: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. Try it for free: [Eureka ASPM](https://eurekadevsecops.com).
 
 ```yaml
 name: Code Scan and Upload
@@ -102,8 +102,7 @@ jobs:
           profile: ${{ vars.EUREKA_PROFILE }}
 ```
 
-> 💡 **Tip:**
->
+> [!TIP]
 > * `EUREKA_AGENT_TOKEN` auth token is required to integrate with the Eureka API.
 > * `EUREKA_PROFILE` tags findings with your Eureka organization and application.
 > * If you omit either, no uploads occur.
@@ -148,7 +147,7 @@ jobs:
 | `scanners`                | Comma-separated list of scanners to run (`"all"` runs all).                   | Optional  | `"opengrep,gitleaks,grype"` | `"opengrep,gitleaks"`                 |
 | `export_findings_to_ghas` | Upload findings to GitHub Advanced Security. Requires GHAS enabled.           | Optional  | `"false"`                   | `"true"`                              |
 | `token`                   | **EUREKA_AGENT_TOKEN** — optional. Enables uploads to Eureka ASPM.            | Optional  | `""`                        | `"${{ secrets.EUREKA_AGENT_TOKEN }}"` |
-| `profile`                 | **EUREKA_PROFILE** — optional. Associates results with an app or environment. | Optional  | `""`                        | `"staging-api"`                       |
+| `profile`                 | **EUREKA_PROFILE** — optional. Associates results with an app or environment. | Optional  | `""`                        | `"${{ vars.EUREKA_PROFILE }}"`                       |
 
 ---
 
