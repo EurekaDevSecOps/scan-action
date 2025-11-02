@@ -102,7 +102,7 @@ jobs:
           profile: ${{ vars.EUREKA_PROFILE }}
 ```
 
-> [!TIP]
+> [!IMPORTANT]
 > * `EUREKA_AGENT_TOKEN` auth token is required to integrate with the Eureka API.
 > * `EUREKA_PROFILE` tags findings with your Eureka organization and application.
 > * If you omit either, no uploads occur.
@@ -131,8 +131,7 @@ jobs:
           export_findings_to_ghas: "true"
 ```
 
-> 💡 **Tip:**
->
+> [!IMPORTANT]
 > * `EUREKA_AGENT_TOKEN` auth token is required to integrate with the Eureka API.
 > * `EUREKA_PROFILE` tags findings with your Eureka organization and application.
 > * If you omit either, no uploads occur.
@@ -198,7 +197,7 @@ If you set `EUREKA_AGENT_TOKEN` and `EUREKA_PROFILE` environment variables, only
 | **Invalid Node.js version**                    | Runner uses an incompatible Node version.                    | This action installs Node 22 automatically, but check logs to confirm setup-node succeeded.                         |
 | **“radar not found”**                          | CLI installation failed.                                     | Re-run the workflow; check npm logs for permission issues or caching problems.                                      |
 
-> **Tip:**
+> [!TIP]
 > You can debug locally using the same CLI command as the action:
 > `radar scan -s "opengrep,gitleaks,grype" -o report.sarif`
 
