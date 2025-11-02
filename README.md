@@ -4,34 +4,32 @@
   <img src="assets/radar.png" alt="Eureka Radar Logo" width="320"/>
 </p>
 
-# The Official Multi-Scanner GitHub Action for Eureka Radar CLI
+# GitHub Action for Eureka Radar CLI
+### One command. Complete AppSec coverage.
 
 ![GitHub release](https://img.shields.io/github/v/release/eurekadevsecops/scan-action?color=2b82f6\&label=Release)
 ![Build](https://github.com/eurekadevsecops/scan-action/actions/workflows/test.yml/badge.svg)
 ![License](https://img.shields.io/github/license/eurekadevsecops/scan-action?color=green)
 ![Node](https://img.shields.io/badge/Node.js-22.x-blue?logo=node.js)
-[![Radar CLI](https://img.shields.io/badge/Radar%20CLI-%40eurekadevsecops%2Fradarctl-blueviolet)](https://github.com/EurekaDevSecOps/radarctl)
 
 </div>
 
-**Scan your code for security vulnerabilities with [Eureka Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners and uploads aggregated results to GitHub Advanced Security or Eureka ASPM.
+**Scan your code for security vulnerabilities with [Eureka Radar CLI](https://github.com/EurekaDevSecOps/radarctl)** — the unified AppSec orchestration tool that runs multiple security scanners. Get visibility into what security vulnerabilities exist in your code. Optionally block deployments and manage vulnerabilities in a central location by uploading aggregated results to Eureka ASPM or GitHub Advanced Security.
 
 This GitHub Action lets you run Radar CLI directly in your CI/CD pipeline.
 Detect secrets, dependency vulnerabilities, insecure code patterns, and configuration issues — all in one step.
 
 ---
 
-**Telemetry defaults to OFF** — nothing is uploaded unless you provide credentials.
-When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibility across repositories, environments, and scanner types.
+**Vulnerability telemetry defaults to OFF** — no vulnerability findings are uploaded anywhere unless you explicitly enable this. When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibility across repositories, environments, and scanner types.
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
-* **Multi-scanner orchestration:** Run one or many scanners (Opengrep, Gitleaks, Grype, OWASP Dep-Scan, and more)
+* **Multi-scanner orchestration:** Run one or many scanners (Opengrep, Gitleaks, Grype, OWASP Dep-Scan, Veracode, and more)
 * **Single SARIF report:** Consolidated findings across all scanners in one place
 * **Optional Eureka ASPM integration:** Upload results for de-duplication, triage, and prioritization
-* **Telemetry control:** Off by default — opt-in when you want centralized visibility
 * **GitHub Advanced Security (GHAS) support:** Upload findings to your repository’s Security tab
 
 ---
@@ -45,22 +43,22 @@ When enabled, [Eureka ASPM](https://eurekadevsecops.com) gives you full visibili
 5. Optionally uploads results to:
 
    * GitHub Advanced Security
-   * Eureka ASPM (if `token` + `profile` are provided)
+   * Eureka ASPM (if `EUREKA_AGENT_TOKEN` and `EUREKA_PROFILE` are provided)
 
 ---
 
 ## Supported Scanners
 
-| Category          | Scanners       | Description                                        |
-| ----------------- | -------------- | -------------------------------------------------- |
-| **SAST**          | Opengrep       | Detects insecure code patterns                     |
-| **Secrets**       | Gitleaks       | Finds hardcoded credentials                        |
-| **SCA**           | Grype, DepScan | Detects vulnerable dependencies                    |
-| **Container/IaC** | (coming soon)  | Scans Dockerfiles, Terraform, Kubernetes manifests |
+| Category          | Scanners                  | Description                                        |
+| ----------------- | ------------------------- | -------------------------------------------------- |
+| **SAST**          | Opengrep                  | Detects insecure code patterns                     |
+| **Secrets**       | Gitleaks                  | Finds hardcoded credentials                        |
+| **SCA**           | Grype, Dep-Scan, Veracode | Detects vulnerable dependencies                    |
+| **Container/IaC** | Grype, Dep-Scan           | Scans Docker, OCI, and Singularity image formats   |
 
 ---
 
-## 🛠️ Usage
+## Usage
 
 ### Example 1 — Local Scans
 
@@ -81,13 +79,11 @@ jobs:
           scanners: "opengrep,gitleaks,grype"
 ```
 
-🧘 **Telemetry:** Disabled by default. No data leaves your environment.
-
 ---
 
 ### Example 2 — Upload Findings to Eureka ASPM
 
-Use this when you want to see all your scan results in one place inside **Eureka ASPM**. Uploading findings adds extra perks: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. If you’re working on an open-source project, we have a free plan for you in [Eureka ASPM](https://eurekadevsecops.com).
+Use this when you want to see all your scan results in one place inside **Eureka ASPM**. Uploading findings adds extra capabilities: a clean dashboard, easier tracking over time, and smarter deduplication across scanners. Sign up for or sign into [Eureka ASPM](https://eurekadevsecops.com).
 
 ```yaml
 name: Code Scan and Upload
@@ -103,14 +99,14 @@ jobs:
         with:
           scanners: "opengrep,gitleaks,grype"
           token: ${{ secrets.EUREKA_AGENT_TOKEN }}
-          profile: "prod-backend"
+          profile: ${{ vars.EUREKA_PROFILE }}
 ```
 
 > 💡 **Tip:**
 >
-> * `EUREKA_AGENT_TOKEN` authenticates uploads to your Eureka workspace.
-> * `EUREKA_PROFILE` tags findings with your app or environment.
-> * If you omit both, no telemetry or uploads occur.
+> * `EUREKA_AGENT_TOKEN` auth token is required to integrate with the Eureka API.
+> * `EUREKA_PROFILE` tags findings with your Eureka organization and application.
+> * If you omit either, no uploads occur.
 
 ---
 
@@ -132,19 +128,19 @@ jobs:
         with:
           scanners: "opengrep,gitleaks,grype"
           token: ${{ secrets.EUREKA_AGENT_TOKEN }}
-          profile: "prod-backend"
+          profile: ${{ vars.EUREKA_PROFILE }}
           export_findings_to_ghas: "true"
 ```
 
 > 💡 **Tip:**
 >
-> * `EUREKA_AGENT_TOKEN` authenticates uploads to your Eureka workspace.
-> * `EUREKA_PROFILE` tags findings with your app or environment.
-> * If you omit both, no telemetry or uploads occur.
+> * `EUREKA_AGENT_TOKEN` auth token is required to integrate with the Eureka API.
+> * `EUREKA_PROFILE` tags findings with your Eureka organization and application.
+> * If you omit either, no uploads occur.
 
 ---
 
-## ⚙️ Inputs
+## Inputs
 
 | Name                      | Description                                                                   | Required? | Default                     | Example                               |
 | ------------------------- | ----------------------------------------------------------------------------- | --------- | --------------------------- | ------------------------------------- |
@@ -156,7 +152,7 @@ jobs:
 
 ---
 
-## 📤 Outputs
+## Outputs
 
 | Name     | Description                                                                                                        |
 | -------- | ------------------------------------------------------------------------------------------------------------------ |
@@ -175,33 +171,20 @@ Example:
 
 ---
 
-## 🔐 Telemetry & Privacy
+## Telemetry & Privacy
 
-Telemetry is **off by default**.
-Radar CLI does **not** send any data externally unless you explicitly provide:
+**Summary:** Radar CLI **doesn't** upload any vulnerability findings by default - only if you explicitly enable uploads to Eureka ASPM. Radar CLI collects minimal anonymous install and usage metrics to help us understand how the product is used and to help us make the product better. This helps us understand adoption, performance, and reliability across environments. 
 
-* `EUREKA_AGENT_TOKEN`
-* `EUREKA_PROFILE`
+### Uploading findings (opt-in)
+If you set `EUREKA_AGENT_TOKEN` and `EUREKA_PROFILE` environment variables, only then will Radar CLI transmit vulnerability findings (SARIF).
 
-When provided:
+### Quick reference
 
-* Findings are securely uploaded to Eureka ASPM
-* You gain unified dashboards, trend analysis, and contextual prioritization
-
-When omitted:
-
-* Scans remain fully local — ideal for forks and isolated use
-
----
-
-## Local Development
-
-Run the same scan locally with Radar CLI:
-
-```bash
-npm i -g @eurekadevsecops/radar
-radar scan -s "opengrep,gitleaks" .
-```
+| Scenario                                           | What gets sent |
+|---------------------------------------------------|----------------|
+| Run `radar scan` locally with **no credentials**  | Local run. No vulnerability findings sent anywhere. Minimal anonymous install/usage metrics only (see above) |
+| Run with `EUREKA_AGENT_TOKEN` and `EUREKA_PROFILE` environment variables set | Vulnerability findings (SARIF) plus anonymous install/usage metrics are uploaded |
+| Air-gapped or offline environments                 | Anonymous install/usage metrics are dropped; no vulnerability findings are transmitted |
 
 ---
 
@@ -209,14 +192,14 @@ radar scan -s "opengrep,gitleaks" .
 
 | Issue                                             | Possible Cause                                               | Solution                                                                                                            |
 | ------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| **❌ `report.sarif` not found**                    | The scan failed or didn’t produce output.                    | Check your workflow logs for errors from Radar CLI. Ensure the `folder_to_scan` path exists and scanners are valid. |
-| **⚠️ No findings uploaded to Eureka**             | Missing or invalid `EUREKA_AGENT_TOKEN` or `EUREKA_PROFILE`. | Make sure your token is stored as a GitHub Secret and your profile matches one in Eureka ASPM.                      |
-| **🚫 “Permission denied” when uploading to GHAS** | Repository doesn’t have GitHub Advanced Security enabled.    | Enable GHAS under your repo’s *Security → Code scanning alerts* settings.                                           |
+| **`report.sarif` not found**                    | The scan failed or didn’t produce output.                    | Check your workflow logs for errors from Radar CLI. Ensure the `folder_to_scan` path exists and scanners are valid. |
+| **No findings uploaded to Eureka**             | Missing or invalid `EUREKA_AGENT_TOKEN` or `EUREKA_PROFILE`. | Make sure your token is stored as a GitHub Secret and your profile matches one in Eureka ASPM.                      |
+| **“Permission denied” when uploading to GHAS** | Repository doesn’t have GitHub Advanced Security enabled.    | Enable GHAS under your repo’s *Security → Code scanning alerts* settings.                                           |
 | **Network errors**                            | CI environment lacks outbound internet access.               | Ensure the runner can reach npmjs.org and eurekadevsecops.com endpoints.                                            |
 | **Invalid Node.js version**                    | Runner uses an incompatible Node version.                    | This action installs Node 22 automatically, but check logs to confirm setup-node succeeded.                         |
 | **“radar not found”**                          | CLI installation failed.                                     | Re-run the workflow; check npm logs for permission issues or caching problems.                                      |
 
-> 🧩 **Tip:**
+> **Tip:**
 > You can debug locally using the same CLI command as the action:
 > `radar scan -s "opengrep,gitleaks,grype" -o report.sarif`
 
@@ -225,7 +208,7 @@ radar scan -s "opengrep,gitleaks" .
 ## Why Upload Findings to Eureka ASPM?
 
 * **One Source of Truth:** Aggregate and de-duplicate findings across scanners — no more hunting through separate reports.
-* **Less Noise, More Signal:** Prioritize risks contextually using code + dependency data. Map findings to **OWASP ASVS**.
+* **Less Noise, More Signal:** Prioritize risks contextually. Map findings to **OWASP ASVS**.
 * **Faster Fixes:** Clear ownership, risk context, and remediation guidance help teams resolve issues quickly.
 * **Built for Dev Workflows:** Integrates with GitHub, CI/CD, and local development so security fits naturally into your flow.
 * **Track and Improve:** See how your project’s security posture evolves over time — from first commit to production.
@@ -234,14 +217,14 @@ Learn more at **[eurekadevsecops.com](https://eurekadevsecops.com)**
 
 ---
 
-## 🪪 License
+## License
 
-This GitHub Action is licensed under the terms of the MIT License — © Eureka DevSecOps Inc.
+This GitHub Action is licensed under the terms of the **GPL v3 License** — © Eureka DevSecOps Inc.
 
 ---
 
-## 💬 Support
+## Support
 
-📫 [security@eurekadevsecops.com](mailto:security@eurekadevsecops.com)
+[security@eurekadevsecops.com](mailto:security@eurekadevsecops.com)
 
-💡 For issues and feature requests: [GitHub Issues](https://github.com/eurekadevsecops/scan-action/issues)
+For issues and feature requests: [GitHub Issues](https://github.com/eurekadevsecops/scan-action/issues)
