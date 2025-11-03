@@ -134,10 +134,10 @@ runs:
         radar scanners
         echo ''
         echo 'Selected scanners:'
-        echo -e '${SCANNERS}'
+        echo "${SCANNERS}"
         echo ''
         echo 'Folder to scan:'
-        echo -e "${TARGET}"
+        echo "${TARGET}"
         echo ''
 
     - name: Run Radar CLI scan
