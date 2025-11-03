@@ -134,10 +134,10 @@ runs:
         radar scanners
         echo ''
         echo 'Selected scanners:'
-        echo -e '$SCANNERS'
+        echo -e '${SCANNERS}'
         echo ''
         echo 'Folder to scan:'
-        echo -e "$TARGET"
+        echo -e "${TARGET}"
         echo ''
 
     - name: Run Radar CLI scan
@@ -147,7 +147,7 @@ runs:
         EUREKA_AGENT_TOKEN: ${{ inputs.token }}
         EUREKA_PROFILE: ${{ inputs.profile }}
       shell: bash
-      run: radar scan -s "$SCANNERS" -o report.sarif "$TARGET"
+      run: radar scan -s "${SCANNERS}" -o report.sarif "${TARGET}"
 
     - name: Set report output
       id: set-report-output

@@ -2,21 +2,15 @@ name: Test
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - main
+    types: [ opened, synchronize, reopened, ready_for_review ]
+    branches: [ main ]
 
 jobs:
   scan-action:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Run Scan
-        uses: EurekaDevSecOps/scan-action@main
+      - uses: eurekadevsecops/scan-action@main
         with:
           scanners: gitleaks,opengrep,grype
